@@ -1,4 +1,4 @@
-package com.pay.arsh.transfer;
+ package com.pay.arsh.transfer;
 
 
 
@@ -141,7 +141,7 @@ public class FundTransfer implements UserService {
 	@Override
 	public void login() {
 		System.out.println("Welcome to bank");
-		System.out.println("Eneter Your bank Account Number");
+		System.out.println("Enter Your bank Account Number");
 		String accNumber = scanner.next();
       
 		//is account no. entered equal to created one for first user?
@@ -162,7 +162,7 @@ public class FundTransfer implements UserService {
 		//is account no. entered equal to created one for second user?
 		else if (accNumber.equalsIgnoreCase(user2.getAcccountNumber())) {
 
-			System.out.println("Eneter 6 digit Pin !!!");
+			System.out.println("Enter 6 digit Pin !!!");
 			int pin = scanner.nextInt();
 			if (Validate.verifyPin(pin, user2)) {
 				activeAcc = 2;
@@ -199,8 +199,9 @@ public class FundTransfer implements UserService {
 		System.out.println("--------Fill Detail to Continue---------");
 		System.out.println("====|  Enter Bank Name  |====");
 		String bankName = scanner.next();
+		
 
-		if (!Validate.checkLength(3, bankName, false)) {
+		if (!Validate.checkLength(2, bankName, false)) {
 			print("[!! Bank Name is Not Valid or Empty !! ]");
 			createAccount();
 		}
@@ -214,30 +215,63 @@ public class FundTransfer implements UserService {
 			createAccount();
 		}
 		System.out.println("");
-
-		System.out.println("====|  Email  |====");
+		
+		int limit1 = 3;
+		System.out.println("====|  Enter your Email  |====");
 		String email = scanner.next();
 
-		if (!Validate.checkLength(10, email, false) && !Validate.validateEmail(email)) {
-			print("[!! Email is Not Valid or Empty !! ]");
-			createAccount();
+		while (!Validate.checkLength(10, email, false) && !Validate.validateEmail(email)) {
+			--limit1;
+	        if(limit1<=0){
+	             System.out.println("Limit Reached now re-enter all the details...");
+	             createAccount();
+	        }
+			print("[!! Email is Not Valid or Empty !!... Please enter again (" + limit1 + " chances left only) ]");
+		    email = scanner.next(); 
 		}
+		/*
+		 * int limit = 3;
+		System.out.println("====|    Create 11 Digit IFSC Code    |====");
+		String ifsc = scanner.next();
+		while(!Validate.checkLength(11, ifsc, true)) { 
 
-		System.out.println("====|  Mobile Number  |====");
+		        --limit;
+		        if(limit<=0){
+		             System.out.println("Limit Reached now re-enter all the details...");
+		             createAccount();
+		        }
+		        print("[!! IFSC is not valid.. ifsc must be of 11 digit !!... Please enter again (" + limit + " chances left only)");
+		        ifsc = scanner.next();
+		}
+		 */
+		int limit2 = 3;
+		System.out.println("====|  10 Digit Mobile Number  |====");
 		String mobile = scanner.next();
 
-		if (Validate.validateMaxMobile(mobile) || Validate.validateMinMobile(mobile)) {
-			print("[!! Mobile Number Must be 10 digit !! ]");
-			createAccount();
+		while (Validate.validateMaxMobile(mobile) || Validate.validateMinMobile(mobile)) {
+			 --limit2;
+		        if(limit2<=0){
+		             System.out.println("Limit Reached now re-enter all the details...");
+		             createAccount();
+		        }
+			print("[!! Mobile Number Must be 10 digit !!... Please enter again (" + limit2 + " chances left only) ]");
+			mobile = scanner.next();
 		}
-
-		System.out.println("====|  Create IFSC Code  |====");
+		
+		int limit3 = 3;
+		System.out.println("====|    Create 11 Digit IFSC Code    |====");
 		String ifsc = scanner.next();
+		while(!Validate.checkLength(11, ifsc, true)) { 
 
-		if (!Validate.checkLength(11, ifsc, true)) {
-			print("[!! ifsc is Not Valid or Empty !! ]");
-			createAccount();
+		        --limit3;
+		        if(limit3<=0){
+		             System.out.println("Limit Reached now re-enter all the details...");
+		             createAccount();
+		        }
+		        print("[!! IFSC is not valid.. ifsc must be of 11 digit !!... Please enter again (" + limit3 + " chances left only)");
+		        ifsc = scanner.next();
 		}
+
 
 		System.out.println("====|  Select Account Type    |====");
 		System.out.println("1.Saving ");
@@ -257,12 +291,19 @@ public class FundTransfer implements UserService {
 		if (amount < 0) {
 			print("[!! Sorry You Can Not Open an Account With 0(Zero) !! ]");
 		}
-
+		
+ 
+		int limit4 = 2;
 		System.out.println("====|  Create 6 Digit Pin    |====");
 		int pin = scanner.nextInt();
-		if (!Validate.checkLength(6, String.valueOf(pin), true)) {
-			print("[!! Pin Must Be 6 Digit !! ]");
-			createAccount();
+		while (!Validate.checkLength(6, String.valueOf(pin), true)) {
+			--limit4;
+			if(limit4<=0){
+				System.out.println("Limit Reached now re-enter all the details...");
+				createAccount();
+			}
+			print("[!! Pin is not valid, pin must Be 6 Digit !!...Please enter again (" + limit4 + " chances left only) ]");
+			pin = scanner.nextInt();
 		}
 
 		System.out.println("====|   Generating 11 Digit Account Number    |====");
